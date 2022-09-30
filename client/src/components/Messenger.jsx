@@ -31,9 +31,11 @@ const Messenger = () => {
  const [activeUser, setActiveUser] = useState([]);
  const [socketMessage, setSocketMessage] = useState('');
  const [typingMessage, setTypingMessage] = useState('');
+ const [showRightBar, setShowRightBar] = useState(false)
+ console.log(showRightBar);
 
  useEffect(() => {
-    socket.current = io();
+    socket.current = io('ws://localhost:8000');
     socket.current.on('getMessage',(data) => {
         setSocketMessage(data);
     })
@@ -301,6 +303,17 @@ useEffect(() => {
           }
       }
 
+      //this controls mobile menu toogle open state
+const handleOpenMobileMenu = ()=>{
+     setShowRightBar(true)
+     return () =>  setShowRightBar(false);
+ }
+ 
+ //closes the mobile menu view
+ const handleCloseMobileMenu = ()=>{
+     setShowRightBar(false)
+ }
+
 
   return (
        <div className={themeMood === 'dark' ? 'messenger theme' : 'messenger' }>
@@ -314,7 +327,6 @@ useEffect(() => {
             }}
             
             />
-
 
 <div className='row'>
      <div className='col-3'>
@@ -373,23 +385,94 @@ useEffect(() => {
                         
                </div> */}
 
-               <div className='friends'>
+
+               <div className='friends' onClick={handleOpenMobileMenu}>
      {
           friends && friends.length>0 ? friends.map((fd) => <div onClick={()=> setCurrentFriend(fd.fndInfo)} className={currentfriend._id === fd.fndInfo._id ? 'hover-friend active' : 'hover-friend' }> 
           <Friends activeUser= {activeUser} myId = {myInfo.id}  friend={fd} />
           </div> ) : 'No Friend'
-     } 
-                    
-                    
-
+     }     
                </div>
 
+
           </div>
-                      
+
+          {
+               !showRightBar &&
+               <div className='mobile'>
+               <div className='top'>
+                    <div className='image-name'>
+                         <div className='image'>
+                              <img src={`./image/${myInfo.image}`} alt='' />
+
+                         </div>
+                         <div className='name'>
+                         <h3>{myInfo.userName} </h3>
+                         </div>
+                       </div>
+
+                       <div className='icons'>
+  <div onClick={()=> setHide(!hide) }  className='icon'>
+                              <FaEllipsisH />
+                            </div>
+                            <div className='icon'>
+                                  <FaEdit/> 
+                            </div>
+
+            <div className={hide ? 'theme_logout' : 'theme_logout show'}>
+                 <h3>Dark Mode </h3>
+            <div className='on'>
+                 <label htmlFor='dark'>ON</label>
+                 <input onChange={(e) => dispatch(themeSet(e.target.value)) } type="radio" value="dark" name="theme" id="dark" />
                  </div>
 
+                 <div className='of'>
+                 <label htmlFor='white'>OFF</label>
+                 <input onChange={(e) => dispatch(themeSet(e.target.value)) } type="radio" value="white" name="theme" id="white" />
+                 </div>
+
+                 <div onClick={logout} className='logout'>
+               <FaSignOutAlt /> Logout
+                 </div>
+
+            </div>
+
+                       </div>
+               </div>
+
+               <div className='friend-search'>
+                    <div className='search'>
+                    <button> <FaSistrix /> </button>
+  <input onChange={search} type="text" placeholder='Search' className='form-control' />
+                    </div>
+               </div>
+
+               {/* <div className='active-friends'>
      {
-          currentfriend ?  <RightSide 
+        activeUser && activeUser.length > 0 ? activeUser.map(u =>  <ActiveFriend setCurrentFriend = {setCurrentFriend} user={u} />) : ''  
+     }
+                        
+               </div> */}
+
+
+               <div className='friends' onClick={handleOpenMobileMenu}>
+     {
+          friends && friends.length>0 ? friends.map((fd) => <div onClick={()=> setCurrentFriend(fd.fndInfo)} className={currentfriend._id === fd.fndInfo._id ? 'hover-friend active' : 'hover-friend' }> 
+          <Friends activeUser= {activeUser} myId = {myInfo.id}  friend={fd} />
+          </div> ) : 'No Friend'
+     }     
+               </div>
+
+
+          </div>
+          }
+                      
+                 </div>
+             
+
+     {
+          showRightBar &&
+          currentfriend ?  <RightSide
           currentfriend={currentfriend}
           inputHendle={inputHendle}
           newMessage={newMessage}
@@ -400,13 +483,13 @@ useEffect(() => {
           ImageSend= {ImageSend}
           activeUser = {activeUser}
           typingMessage = {typingMessage}
-          /> : 'Please Select your Friend'
+          /> : ''
      }
                 
+      </div>
+          
+      </div>
 
-            </div>
-
-       </div>
   )
 };
 

@@ -73,3 +73,9 @@
          display: grid;
      }
  }
+
+ @media only screen and (max-width: 600px){
+    .friend-info{
+        display: none;
+    }
+ }
