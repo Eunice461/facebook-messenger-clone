@@ -35,7 +35,7 @@ const Messenger = () => {
  console.log(showRightBar);
 
  useEffect(() => {
-    socket.current = io('ws://localhost:8000');
+    socket.current = io();
     socket.current.on('getMessage',(data) => {
         setSocketMessage(data);
     })
