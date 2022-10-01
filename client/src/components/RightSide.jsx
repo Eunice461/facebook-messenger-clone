@@ -3,10 +3,12 @@ import { FaPhoneAlt,FaVideo,FaRocketchat } from "react-icons/fa";
 import FriendInfo from './FriendInfo';
 import Message from './Message';
 import MessageSend from './MessageSend';
+import {MdOutlineCancel} from 'react-icons/md'
+
 
 const RightSide = (props) => {
 
-const {currentfriend,inputHendle,newMessage,sendMessage,message,scrollRef,emojiSend,ImageSend,activeUser,typingMessage} = props;
+const {currentfriend,inputHendle,newMessage,sendMessage,message,scrollRef,emojiSend,ImageSend,activeUser,typingMessage, handleCloseMobileMenu} = props;
  
 
 
@@ -35,6 +37,11 @@ const {currentfriend,inputHendle,newMessage,sendMessage,message,scrollRef,emojiS
                     </div>
 
           <div className='icons'>
+
+     <div className='icon' onClick={handleCloseMobileMenu}>
+          <MdOutlineCancel/>
+     </div>
+
      <div className='icon'>
           <FaPhoneAlt/>
      </div>

@@ -483,6 +483,7 @@ const handleOpenMobileMenu = ()=>{
           ImageSend= {ImageSend}
           activeUser = {activeUser}
           typingMessage = {typingMessage}
+          handleCloseMobileMenu = {handleCloseMobileMenu}
           /> : ''
      }
                 
