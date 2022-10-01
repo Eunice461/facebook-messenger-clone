@@ -133,7 +133,9 @@ module.exports.messageGet = async(req,res) => {
                     }
                }]
           }]
-         })
+         }).sort({
+          updatedAt: -1
+     });
          
 
          //getAllMessage = getAllMessage.filter(m=>m.senderId === myId && m.reseverId === fdId || m.reseverId ===  myId && m.senderId === fdId );
